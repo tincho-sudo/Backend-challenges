@@ -56,25 +56,4 @@ class ProductManager {
   }
 }
 
-// Dejo el generateRandomId aca porque no estoy usando inputs sino basicamente hardcodeando los productos en esta entrega,
-// asi que lo uso simplemente para crear 2 productos que usen el generador y otros 2 que no, de forma que se pueda testear el poder eliminar o etc
-let usedIds = new Set();
-
-function generateRandomId() {
-  const characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  const idLength = 6;
-  let id = "";
-  while (id.length < idLength) {
-    const randomIndex = Math.floor(Math.random() * characters.length);
-    id += characters.charAt(randomIndex);
-  }
-  // No me voy a poner a hacer un control in-depth, lo agrego asi nomas para solucionar cualquier error temporalmente
-  if (usedIds.has(id)) {
-    id += characters.charAt(randomIndex);
-  }
-  usedIds.add(id);
-  return id;
-}
-
-module.exports = { ProductManager, generateRandomId };
+module.exports = { ProductManager};
