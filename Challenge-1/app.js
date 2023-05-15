@@ -1,4 +1,4 @@
-const { ProductManager } = require("./products.js");
+const { ProductManager } = require("./ProductManager.js");
 const manager = new ProductManager();
 
 // Agregar productos
