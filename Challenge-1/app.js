@@ -1,4 +1,4 @@
-const { ProductManager, generateRandomId } = require("./products.js");
+const { ProductManager } = require("./products.js");
 const manager = new ProductManager();
 
 // Agregar productos
