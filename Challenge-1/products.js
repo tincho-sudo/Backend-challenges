@@ -39,15 +39,16 @@ class ProductManager {
     }
   }
 
-  // Eliminar un producto por su id
-  deleteProductById(id) {
-    const product = this.getProductById(id);
-    if (!product) {
-      throw new Error(`No se encontró ningún producto con el ID: ${id}`);
-    } else {
-      return this.products.splice(id, 1)[0];
-    }
+// Eliminar un producto por su id
+deleteProductById(id) {
+  const productIndex = this.products.findIndex((product) => product.id === id);
+  if (productIndex === -1) {
+    throw new Error(`No se encontró ningún producto con el ID: ${id}`);
+  } else {
+    return this.products.splice(productIndex, 1)[0];
   }
+}
+
 
   // Obtener todos los productos
   getAllProducts() {
