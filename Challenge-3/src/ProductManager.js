@@ -1,5 +1,4 @@
 const fs = require("fs");
-const path = require("path");
 class ProductManager {
   constructor() {
     this.products = [];
@@ -97,8 +96,6 @@ class ProductManager {
 
   async getProductsFromFile() {
     try {
-      const fullPath = path.resolve(this.path);
-      console.log("Ruta completa del archivo:", fullPath);
       const productsFile = await fs.promises.readFile(this.path, "utf-8");
       this.products = await JSON.parse(productsFile);
       this.counter = this.products.length + 1;
