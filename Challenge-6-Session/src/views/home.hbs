@@ -1,0 +1,26 @@
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Price</th>
+      <th>Thumbnail</th>
+      <th>Stock</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each products}}
+      <tr>
+        <td>{{this._id}}</td>
+        <td>{{this.title}}</td>
+        <td>{{this.categ}}</td>
+        <td>{{this.description}}</td>
+        <td>{{this.price}}</td>
+        <td>{{this.thumbnail}}</td>
+        <td>{{this.stock}}</td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>
