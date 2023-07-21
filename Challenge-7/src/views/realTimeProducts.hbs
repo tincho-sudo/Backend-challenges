@@ -1,0 +1,65 @@
+<h1>Real time products</h1>
+<table id="productTable">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Price</th>
+      <th>Thumbnail</th>
+      <th>Stock</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each products}}
+      <tr>
+        <td>{{this.id}}</td>
+        <td>{{this.title}}</td>
+        <td>{{this.description}}</td>
+        <td>{{this.price}}</td>
+        <td>{{this.thumbnail}}</td>
+        <td>{{this.stock}}</td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  const socket = io(); 
+  socket.on("connect", () => { console.log("Conectado al servidor de Socket.IO"); }); 
+  socket.on("disconnect", () => {console.log("Desconectado del servidor de Socket.IO"); });
+  socket.on('productCreated', (product) => {
+    console.log('Nuevo producto creado');
+    addProductToTable(product);
+  });
+  socket.on('productDeleted', (productId) => {
+    console.log('Producto eliminado');
+    deleteProductFromTable(productId);
+  });
+
+  function addProductToTable(product) {
+    const tableBody = document.querySelector('#productTable tbody');
+    const newRow = document.createElement('tr');
+    newRow.innerHTML = `
+      <td>${product.id}</td>
+      <td>${product.title}</td>
+      <td>${product.description}</td>
+      <td>${product.price}</td>
+      <td>${product.thumbnail}</td>
+      <td>${product.stock}</td>
+    `;
+    tableBody.appendChild(newRow);
+  }
+
+  function deleteProductFromTable(productId) {
+    const tableBody = document.querySelector('#productTable tbody');
+    const rows = tableBody.getElementsByTagName('tr');
+    for (let i = 0; i < rows.length; i++) {
+      const idCell = rows[i].getElementsByTagName('td')[0];
+      if (idCell.textContent == productId) {
+        rows[i].remove();
+        break;
+      }
+    }
+  }
+</script>
