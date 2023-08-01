@@ -94,6 +94,17 @@ const initializePassport = () => {
     )
   );
 
+  passport.use("current", (req, done) => {
+  try {
+    if (!req.user) {
+      return done(null, false, { message: "User not found in session" });
+    }
+    return done(null, req.session);
+  } catch (error) {
+    return done(error, false, { message: "Strategy error" });
+  }
+});
+
   passport.serializeUser((user, done) => {
     done(null, user._id);
   });
