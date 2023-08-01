@@ -62,11 +62,7 @@ router.post("/faillogin", async (_, res) => {
   res.status(400).send({ status: "error", error: "login error" });
 });
 
-router.get("/current", async (req, res) => {
-  console.log(
-    "Devuelvo la session y cookie con passport por requisito: ",
-    req.session
-  );
+router.get("/current",passport.authenticate("current", {session: false}), async (req, res) => {
   res.status(200).send({ status: "ok", payload: req.session });
 });
 
