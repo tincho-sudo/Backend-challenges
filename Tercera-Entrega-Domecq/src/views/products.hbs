@@ -1,0 +1,50 @@
+<h1>{{title}}</h1>
+<h6>Usuario: {{username}} <span><a href="/profile">Ver perfil</a></span></h6>
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Category</th>
+      <th>Description</th>
+      <th>Price</th>
+      <th>Thumbnail</th>
+      <th>Stock</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each products}}
+      <tr>
+        <td>{{this._id}}</td>
+        <td><a
+            href="/products/{{this._id}}?cid={{cartId}}"
+          >{{this.title}}</a></td>
+        <td>{{this.categ}}</td>
+        <td>{{this.description}}</td>
+        <td>{{this.price}}</td>
+        <td>{{this.thumbnail}}</td>
+        <td>{{this.stock}}</td>
+        {{#if cartId}}
+          <td>
+            <form
+              action="/api/carts/{{cartId}}/product/{{this._id}}"
+              method="POST"
+            >
+              <button type="submit">Add to Cart</button>
+            </form>
+          </td>
+        {{/if}}
+
+      </tr>
+    {{/each}}
+  </tbody>
+</table>
+
+{{! Paginacion }}
+{{#if prevLink}}
+  <a href="{{prevLink}}">Previous</a>
+{{/if}}
+{{#if nextLink}}
+  <a href="{{nextLink}}">Next</a>
+{{/if}}
