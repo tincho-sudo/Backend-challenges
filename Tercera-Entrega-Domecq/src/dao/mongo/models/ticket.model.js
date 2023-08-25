@@ -1,20 +1,25 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
+const generateRandomCode = () => {
+  const randomInt = (min, max) => {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  };
+  const characters = "abcdefghijklmnopqrstuvwxyz0123456789";
+  let randomCode = "";
+  for (let i = 0; i < 10; i++) {
+    const randomIndex = randomInt(0, characters.length - 1);
+    randomCode += characters[randomIndex];
+  }
+  return randomCode;
+};
+
 const ticketSchema = new Schema({
   code: {
     type: String,
     min: 6,
     max: 15,
-    default: (generateRandom = () => {
-      const randomInt = (min, max) => {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-      };
-      this.randomCode = Math.random()
-        .toString(36)
-        .substring(2, randomInt(6, 10));
-      return randomCode;
-    }),
+    default: generateRandomCode,
     unique: true,
   },
   purchase_datetime: {

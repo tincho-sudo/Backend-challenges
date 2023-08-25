@@ -14,6 +14,7 @@ class TicketsDaoMongo {
 
   newTicket = async (ticket) => {
     try {
+      console.log(ticket);
       const newTicket = await Ticket.create(ticket);
       return newTicket;
     } catch (error) {

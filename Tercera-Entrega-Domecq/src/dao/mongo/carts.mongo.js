@@ -1,8 +1,5 @@
 const Cart = require("./models/cart.model.js");
-const {
-  newTicket: ticketService,
-} = require("../../controllers/tickets.controller.js");
-
+//const { newTicket } = require("../../controllers/tickets.controller.js");
 class CartsDaoMongo {
   constructor() {}
 
@@ -46,7 +43,7 @@ class CartsDaoMongo {
     }
   };
 
-  purchase = async (purchaser, cart) => {
+  purchase = async (purchaser, cart, ticketsService) => {
     try {
       let totalAmount = 0;
       let totalQuantity = 0;
@@ -75,8 +72,9 @@ class CartsDaoMongo {
         price: totalAmount,
         purchaser: purchaser,
       };
+      console.log(ticket);
 
-      const newTicket = await ticketService(ticket);
+      const newTicket = await ticketsService.newTicket(ticket);
 
       console.log("New ticket created:", newTicket);
 

@@ -16,13 +16,19 @@ class CartsService {
     return this.dao.newCart(cart);
   }
   updateCartById(id) {
-    return this.dao.updateCart(id);
+    return async (req, res) => {
+      if (req.user.role === "admin") {
+        res.status(200).json({ success: true, message: "Cart updated" });
+        await this.dao.updateCart(id);
+      } else {
+        res.status(403).json({ success: false, error: "Unauthorized" });
+      }
+    };
   }
 
-  purchase(purchaser,cart) {
-    return this.dao.purchase(purchaser,cart);
+  purchase(purchaser, cart, ticketsService) {
+    return this.dao.purchase(purchaser, cart, ticketsService);
   }
-
 }
 
 module.exports = CartsService;

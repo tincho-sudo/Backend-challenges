@@ -1,17 +1,17 @@
 const { PERSISTENCE } = require("../config/env");
+const TicketsMongoService = require("./mongo/services/tickets.service");
 const UsersMongoService = require("./mongo/services/users.service");
 const ProductsMongoService = require("./mongo/services/products.service");
 const CartsMongoService = require("./mongo/services/carts.service");
 const MessagesMongoService = require("./mongo/services/messages.service");
-const TicketsMongoService = require("./mongo/services/tickets.service");
+const dao = process.argv[3] || PERSISTENCE || "MONGO";
 class UsersDaoFactory {
   constructor() {}
   static getDao() {
-    const dao = PERSISTENCE || "MONGO";
     switch (dao) {
       case "MONGO":
         return new UsersMongoService();
-      case "*":
+      case "OTHER":
         break;
       default:
         return new UsersMongoService();
@@ -22,11 +22,10 @@ class UsersDaoFactory {
 class ProductsDaoFactory {
   constructor() {}
   static getDao() {
-    const dao = PERSISTENCE || "MONGO";
     switch (dao) {
       case "MONGO":
         return new ProductsMongoService();
-      case "*":
+      case "OTHER":
         break;
       default:
         return new ProductsMongoService();
@@ -37,11 +36,10 @@ class ProductsDaoFactory {
 class CartsDaoFactory {
   constructor() {}
   static getDao() {
-    const dao = PERSISTENCE || "MONGO";
     switch (dao) {
       case "MONGO":
         return new CartsMongoService();
-      case "*":
+      case "OTHER":
         break;
       default:
         return new CartsMongoService();
@@ -51,11 +49,10 @@ class CartsDaoFactory {
 class MessagesDaoFactory {
   constructor() {}
   static getDao() {
-    const dao = PERSISTENCE || "MONGO";
     switch (dao) {
       case "MONGO":
         return new MessagesMongoService();
-      case "*":
+      case "OTHER":
         break;
       default:
         return new MessagesMongoService();
@@ -66,11 +63,10 @@ class MessagesDaoFactory {
 class TicketsDaoFactory {
   constructor() {}
   static getDao() {
-    const dao = PERSISTENCE || "MONGO";
     switch (dao) {
       case "MONGO":
         return new TicketsMongoService();
-      case "*":
+      case "OTHER":
         break;
       default:
         return new TicketsMongoService();
@@ -78,9 +74,9 @@ class TicketsDaoFactory {
   }
 }
 module.exports = {
+  TicketsDaoFactory,
   UsersDaoFactory,
   ProductsDaoFactory,
   CartsDaoFactory,
   MessagesDaoFactory,
-  TicketsDaoFactory,
 };
