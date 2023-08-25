@@ -111,7 +111,9 @@ const initializePassport = () => {
             message: "User not found in session",
           });
         }
-        return done(null, req.user);
+
+        const user = new UserDTO(req.user);
+        return done(null, user);
       } catch (error) {
         return done(error, false, { message: "Strategy error" });
       }
