@@ -1,6 +1,7 @@
-const { ProductsDaoFactory, CartsDaoFactory } = require("../dao/factory.js");
+const { ProductsDaoFactory, CartsDaoFactory, TicketsDaoFactory } = require("../dao/factory.js");
 
 const cartsService = CartsDaoFactory.getDao();
+const ticketsService = TicketsDaoFactory.getDao();
 const productsService = ProductsDaoFactory.getDao();
 
 const newCart = async (_, res) => {
@@ -190,7 +191,7 @@ const purchase = async (req, res) => {
           .json({ success: false, error: "Carrito no encontrado" });
         return;
       }
-      const ticket = await cartsService.purchase(req.session.user.email, cart);
+      const ticket = await cartsService.purchase(req.session.user.email, cart, ticketsService);
 
       res.status(200).json({ success: true, cart: cart, ticket: ticket });
     } else

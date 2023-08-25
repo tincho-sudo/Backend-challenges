@@ -1,6 +1,6 @@
 const { UsersDaoFactory } = require("../dao/factory.js");
 const usersService = UsersDaoFactory.getDao();
-
+const UserDTO = require("../dao/dto/user.dto");
 const { createHash } = require("../utils");
 const logout = (req, res) => {
   if (req.session.user !== undefined) {
@@ -48,7 +48,8 @@ const failRegister = async (_, res) => {
 };
 
 const currentUser = async (req, res) => {
-  res.status(200).send({ status: "ok", payload: req.session });
+  const user = new UserDTO(req.session.user);
+  res.status(200).send({ status: "ok", payload: user });
 };
 
 const newUser = async (_, res) => {

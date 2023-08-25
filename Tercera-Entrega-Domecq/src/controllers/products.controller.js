@@ -1,6 +1,6 @@
 const Product = require("../dao/mongo/models/product.model");
 
-const { ProductsDaoFactory } = require("../dao/factory");
+const { ProductsDaoFactory } = require("../dao/factory.js");
 const productsService = ProductsDaoFactory.getDao();
 
 // La funcion getAllProducts va a permanecer utilizando el dao sin el service por ser sencillamente inconveniente
