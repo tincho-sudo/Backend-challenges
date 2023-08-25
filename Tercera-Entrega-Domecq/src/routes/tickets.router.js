@@ -6,7 +6,7 @@ const {
   getTicketById,
   getAllTickets,
   deleteTicketById,
-} = require("../controllers/tickets.controller.js");
+} = require("../controllers/tickets.controller");
 // Crear un nuevo Ticket
 router.post("/", newTicket);
 
