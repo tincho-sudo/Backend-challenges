@@ -1,0 +1,14 @@
+paths:
+  /api/products:
+    get:
+      summary:
+      tags:
+    post:
+      summary:
+      tags:
+    put:
+      summary:
+      tags:
+    delete:
+      summary:
+      tags:
