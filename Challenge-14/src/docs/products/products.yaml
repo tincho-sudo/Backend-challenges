@@ -1,14 +1,141 @@
 paths:
-  /api/products:
+  /api/products/{pid}:
     get:
-      summary:
+      summary: Devuelve informacion de un producto
       tags:
-    post:
-      summary:
-      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          description: Id del producto a verificar
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Informacion del producto
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        "500":
+          description: Error interno del servidor. Suele estar relacionado con una query defectuosa o error de conexión a la base de datos
     put:
-      summary:
+      summary: Modifica un producto de la base de datos
       tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          description: Id del producto a modificar
+          required: true
+          schema:
+            type: string
+          responses:
+            "200":
+              description: Se modifico el producto
+              content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Product"
+            "500":
+              description: Error interno del servidor. Suele estar relacionado con una query defectuosa o error de conexión a la base de datos
     delete:
-      summary:
+      summary: Elimina un producto de la base de datos
       tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          description: Id del producto a eliminar
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Se elimino el producto
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        "500":
+          description: Error interno del servidor. Suele estar relacionado con una query defectuosa o error de conexión a la base de datos
+  /api/products/:
+    get:
+      summary: Devuelve la lista de productos
+      tags:
+        - Products
+      responses:
+        "200":
+          description: Se recupero la lista de productos
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        "500":
+          description: Error interno del servidor. Suele estar relacionado con una query defectuosa o error de conexión a la base de datos
+    post:
+      summary: Añade un nuevo producto a la base de datos
+      tags:
+        - Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/PostProductRequest"
+      responses:
+        "200":
+          description: Se añadio el producto
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        "500":
+          description: Error interno del servidor. Suele estar relacionado con una query defectuosa o error de conexión a la base de datos
+      
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Id del producto
+        title:
+          type: string
+          description: Nombre del producto
+        category:
+          type: string
+          description: Categoria del producto
+        description:
+          type: string
+          description: Descripcion del producto
+        price:
+          type: number
+          description: Precio del producto
+        thumbnail:
+          type: string
+          description: Nombre de la imagen del producto
+        stock:
+          type: number
+          description: Stock del producto
+  requestBodies:
+    PostProductRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Nombre del producto
+        description:
+          type: string
+          description: Descripcion del producto
+        price:
+          type: number
+          description: Precio del producto
+        thumbnail:
+          type: string
+          description: Nombre de la imagen del producto
+        stock:
+          type: number
+          description: Stock del producto
