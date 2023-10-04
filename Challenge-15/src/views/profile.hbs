@@ -1,0 +1,29 @@
+{{#if login_status}}
+  <div>
+    <h1>{{title}}</h1>
+    <div>
+      <label>Nombre: </label><span>{{first_name}}</span><br />
+      <label>Apellido: </label><span>{{last_name}}</span><br />
+      <label>Email: </label><span>{{email}}</span><br />
+      <label>Edad: </label><span>{{age}}</span><br />
+      <label>Privilegios: </label><span>{{role}}</span><br />
+      {{#isEqual role "admin"}}
+        <button><a href="/backoffice">Ir al backoffice</a></button>
+      {{/isEqual}}
+
+    </div>
+
+    <form id="logoutForm">
+      <button type="submit">Cerrar sesión</button>
+      <div id="messageContainer" style="display: none;"></div>
+    </form>
+    <button><a href="/products">Ver productos</a></button>
+  </div>
+  <script src="../static/js/logout.js"></script>
+{{else}}
+  <div>
+    <h2>No iniciaste sesion</h2>
+    <script>
+      setTimeout(() => { window.location.replace("/login"); }, 3000);</script>
+  </div>
+{{/if}}
