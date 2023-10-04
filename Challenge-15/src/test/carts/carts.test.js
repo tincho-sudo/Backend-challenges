@@ -40,7 +40,7 @@ describe("Testing de Carts", () => {
       expect(ok).to.equal(true);
     });
   });
-  describe.only("Test de add product to cart", () => {
+  describe("Test de add product to cart", () => {
     let cartId;
 
     before(async () => {
