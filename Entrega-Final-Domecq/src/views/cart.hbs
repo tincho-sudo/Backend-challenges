@@ -1,0 +1,113 @@
+<h1>{{title}}</h1>
+<h6>Usuario: {{username}} <span><a href="/products">Volver</a></span></h6>
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Category</th>
+      <th>Description</th>
+      <th>Price</th>
+      <th>Thumbnail</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each cartContent}}
+      <tr>
+        <td>{{this.product._id}}</td>
+        <td><a
+            href="/products/{{this.product._id}}"
+          >{{this.product.title}}</a></td>
+        <td>{{this.product.categ}}</td>
+        <td>{{this.product.description}}</td>
+        <td>{{this.product.price}}</td>
+        <td><img
+            src="/static/img/{{this.product.thumbnail}}"
+            alt="Mi Imagen"
+            style="width: 250px; height: 250px;"
+          /></td>
+        <td><button class="remove" id="removeButton" data-product-id="{{this._id}}" data-cart-id="{{this.cartId}}">Eliminar</button></td>
+      </tr>
+    {{/each}}
+  </tbody>
+
+</table>
+<button id="buyButton" class="buy" data-product-id="{{this._id}}" data-cart-id="{{this.cartId}}" >Comprar</button>
+<button id="clearButton" class="clear" data-cart-id="{{this.cartId}}">Vaciar carrito</button>
+
+<script>
+
+  const buyButton = document.getElementById('buyButton'); 
+    buyButton.addEventListener("click", function(event) {
+      event.preventDefault();
+      const cartId = buyButton.getAttribute("data-cart-id")
+      console.log(cartId);
+      fetch(`/api/carts/${cartId}/purchase`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then(response => response.json())
+        .then(data => {
+
+          if (data.success) {
+            alert("Compra realizada con exito.");
+          } else {
+            alert("Hubo un problema en la compra.");
+          }
+        })
+        .catch(error => {
+          console.error("Error al realizar la compra:", error);
+        });
+    });
+  const deleteButtons = document.querySelectorAll(".remove");
+  deleteButtons.forEach((button)=>{
+    button.addEventListener("click", function(event) {
+ const cartId = button.getAttribute("data-cart-id");
+ const productId = button.getAttribute("data-product-id");
+      fetch(`/api/carts/${cartId}/product/${productId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then(response => response.json())
+        .then(data => {
+
+          if (data.success) {
+            alert("Producto removido del carrito con éxito.");
+          } else {
+            alert("Hubo un problema al eliminar el producto del carrito.");
+          }
+        })
+        .catch(error => {
+          console.error("Error al eliminar el producto del carrito:", error);
+        });
+
+    });
+  });
+  const clearButton = document.getElementById('clearButton');
+  clearButton.addEventListener("click", function(event){
+  const cartId = clearButton.getAttribute("data-cart-id");
+  fetch(`/api/carts/${cartId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            alert("Carrito vaciado con exito.");
+          } else {
+            alert("Hubo un problema al vaciar el carrito.");
+          }
+        })
+        .catch(error => {
+          console.error("Error al vaciar el carrito:", error);
+        });
+      location.reload();
+  });
+</script>

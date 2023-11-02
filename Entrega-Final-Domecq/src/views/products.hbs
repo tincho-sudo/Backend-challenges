@@ -1,0 +1,86 @@
+<h1>{{title}}</h1>
+<h6>Usuario: {{username}} <span><a href="/profile">Ver perfil</a></span></h6><span><a href="/cart">Ver Carrito</a></span>
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Category</th>
+      <th>Description</th>
+      <th>Price</th>
+      <th>Thumbnail</th>
+      <th>Stock</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each products}}
+      <tr>
+        <td>{{this._id}}</td>
+        <td><a
+            href="/products/{{this._id}}?cid={{cartId}}"
+          >{{this.title}}</a></td>
+        <td>{{this.categ}}</td>
+        <td>{{this.description}}</td>
+        <td>{{this.price}}</td>
+                <td><img
+            src="/static/img/{{this.thumbnail}}"
+            alt="Mi Imagen"
+            style="width: 250px; height: 250px;"
+          /></td>
+        <td>{{this.stock}}</td>
+        {{#if cartId}}
+          <td>
+              <button
+                type="submit"
+                class="add-to-cart"
+                data-product-id="{{this._id}}"
+                data-cart-id="{{this.cartId}}"
+              >Add to Cart</button>
+          </td>
+        {{/if}}
+
+      </tr>
+    {{/each}}
+  </tbody>
+</table>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const addToCartButtons = document.querySelectorAll(".add-to-cart");
+
+  addToCartButtons.forEach(button => {
+    button.addEventListener("click", function(event) {
+      event.preventDefault();
+      const productId = button.getAttribute("data-product-id");
+      const cartId = button.getAttribute("data-cart-id")
+      fetch(`/api/carts/${cartId}/product/${productId}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then(response => response.json())
+        .then(data => {
+
+          if (data.success) {
+            alert("Producto agregado al carrito con éxito.");
+          } else {
+            alert("Hubo un problema al agregar el producto al carrito.");
+          }
+        })
+        .catch(error => {
+          console.error("Error al agregar el producto al carrito:", error);
+        });
+    });
+  });
+});
+</script>
+
+{{! Paginacion }}
+{{#if prevLink}}
+  <a href="{{prevLink}}">Previous</a>
+{{/if}}
+{{#if nextLink}}
+  <a href="{{nextLink}}">Next</a>
+{{/if}}

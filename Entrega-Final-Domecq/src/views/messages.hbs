@@ -1,0 +1,18 @@
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>User</th>
+      <th>Message</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    {{#each messages}}
+      <tr>
+        <td>{{this._id}}</td>
+        <td>{{this.user}}</td>
+        <td>{{this.message}}</td>
+    {{/each}}
+  </tbody>
+</table>
